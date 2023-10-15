@@ -10,6 +10,7 @@ import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 import { Separator } from "../ui/separator";
 import ServerSection from "./server-section";
 import ServerChannel from "./server-channel";
+import ServerMember from "./server-member";
 interface ServerSidebarProps {
   serverId: string;
 }
@@ -142,7 +143,11 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             <div className="space-y-[2px]">
               {textChannels.map((channel) => (
                 // <ServerChan
-                <div key={channel.id}>{channel.name}</div>
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                />
               ))}
             </div>
           </div>
@@ -156,7 +161,11 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             />
             <div className="space-y-[2px]">
               {audioChannels.map((channel) => (
-                <ServerChannel key={channel.id}/>
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                />
                 // <div key={channel.id}>{channel.name}</div>
               ))}
             </div>
@@ -171,14 +180,29 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             />
             <div className="space-y-[2px]">
               {videoChannels.map((channel) => (
-                // <ServerChan
-                <div key={channel.id}>{channel.name}</div>
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                />
+                // <div key={channel.id}>{channel.name}</div>
               ))}
             </div>
           </div>
         )}
       </ScrollArea>
-      ServerSidebar
+      {/* ServerSidebar */}
+      {!!members?.length && (
+        <div className="mb-2">
+          <ServerSection label="Members" sectionType="members" role={role} />
+          <div className="space-y-[2px]">
+            {members.map((member) => (
+              // <div key={member.id}>wafwaf</div>
+              <ServerMember key={member.id} member={member} server={server} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
